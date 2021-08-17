@@ -1,5 +1,5 @@
 const Sort = {
-  asc: (arr = []) => {
+  asc: (arr) => {
     let result = [...arr];
 
     for (let i = 1; i < result.length; i++) {
@@ -14,7 +14,7 @@ const Sort = {
 
     return result;
   },
-  reverse: (arr = []) => {
+  desc: (arr) => {
     let result = [...arr];
 
     for (let i = 1; i < result.length; i++) {

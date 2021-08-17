@@ -9,22 +9,23 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px 100px;
+
+  padding: 20px 100px;
 `;
 
 function Index() {
-  const [data, setData] = useState();
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const [data, setData] = useState([]);
 
   return (
     <Container>
       <Timer area="ko-KR" />
       <Form setData={setData} />
-      <Result data={data} filter="asc" />
-      <Result data={data} filter="reverse" />
+      {data.length && (
+        <>
+          <Result data={data} filter="asc" />
+          <Result data={data} filter="desc" />
+        </>
+      )}
       <Timer area="en-US" />
     </Container>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 
-function index(props) {
+function Index(props) {
   const today = new Date();
   const { area } = props;
 
@@ -11,11 +11,7 @@ function index(props) {
     day: "numeric",
   };
 
-  return (
-    <>
-      <div>{today.toLocaleDateString(area, options)}</div>
-    </>
-  );
+  return <h2>{today.toLocaleDateString(area, options)}</h2>;
 }
 
-export default index;
+export default Index;
