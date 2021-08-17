@@ -1,8 +1,9 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 import { checkNumber } from "utils/Validation";
 
-function index({ field, onSetLoading, onFieldChange, setData }) {
+function Index({ field, onFieldChange, setData }) {
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -10,15 +11,9 @@ function index({ field, onSetLoading, onFieldChange, setData }) {
 
     const filterNumber = splitValue.filter((item) => checkNumber(item));
 
-    onSetLoading(true);
+    setData(filterNumber);
 
-    setTimeout(() => {
-      setData(filterNumber);
-
-      onFieldChange("");
-
-      onSetLoading(false);
-    }, 3000);
+    onFieldChange("");
   }
 
   const handleFieldChange = (e) => {
@@ -30,7 +25,7 @@ function index({ field, onSetLoading, onFieldChange, setData }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <CustomForm onSubmit={handleSubmit}>
       <textarea
         value={field}
         name="textarea"
@@ -39,8 +34,30 @@ function index({ field, onSetLoading, onFieldChange, setData }) {
         onChange={handleFieldChange}
       ></textarea>
       <button type="submit">시작</button>
-    </form>
+    </CustomForm>
   );
 }
 
-export default index;
+const CustomForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  textarea {
+    margin-bottom: 30px;
+  }
+
+  button {
+    outline: none;
+    border: 0;
+    background-color: #9dcfff;
+    padding: 10px;
+
+    :hover {
+      background-color: #8bbdff;
+    }
+  }
+`;
+
+export default Index;

@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { keyframes } from "@emotion/react";
-import { VscLoading } from "react-icons/vsc";
 
 import Timer from "components/Timer";
 import Form from "components/Form";
@@ -12,7 +10,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px 100px;
+
+  padding: 20px 100px;
 `;
 
 function Index() {
@@ -24,72 +23,34 @@ function Index() {
     setField(value);
   };
 
-  const handleSetLoading = (isLoading) => {
+  const handleSetLoading = useCallback((isLoading) => {
     setLoading(isLoading);
-  };
+  }, []);
 
   useEffect(() => {
     console.log(data);
   }, [data]);
 
+  console.log(loading);
+
   return (
     <Container>
       <Timer area="ko-KR" />
-      <Form
-        field={field}
-        onSetLoading={handleSetLoading}
-        onFieldChange={handleFieldChange}
-        setData={setData}
-      />
-      <Result data={data} filter="asc" />
-      <Result data={data} filter="reverse" />
-      <Timer area="en-US" />
-      {loading && (
-        <LoadingBox>
-          <p>
-            <VscLoading />
-          </p>
-        </LoadingBox>
+      <Form field={field} onFieldChange={handleFieldChange} setData={setData} />
+      {data.length > 0 && (
+        <>
+          <Result data={data} filter="asc" />
+          <Result
+            data={data}
+            loading={loading}
+            onSetLoading={handleSetLoading}
+            filter="desc"
+          />
+        </>
       )}
+      <Timer area="en-US" />
     </Container>
   );
 }
-
-const spin = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const LoadingBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-
-  p {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: 200px;
-    height: 200px;
-    font-size: 20px;
-    background: #fff;
-    border-radius: 20px;
-    svg {
-      font-size: 30px;
-      animation: ${spin} 2.5s linear infinite;
-    }
-  }
-`;
 
 export default Index;
