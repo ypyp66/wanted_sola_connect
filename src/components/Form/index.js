@@ -1,18 +1,43 @@
 import React from "react";
 
-function index({ setData }) {
+import { checkNumber } from "utils/Validation";
+
+function index({ field, onSetLoading, onFieldChange, setData }) {
   function handleSubmit(e) {
     e.preventDefault();
-    let { value } = e.target.textarea;
-    console.log(value, typeof value);
-    value = value.split(",").map(Number);
-    console.log(value);
 
-    setData(value);
+    const splitValue = field.split("");
+
+    const filterNumber = splitValue.filter((item) => checkNumber(item));
+
+    onSetLoading(true);
+
+    setTimeout(() => {
+      setData(filterNumber);
+
+      onFieldChange("");
+
+      onSetLoading(false);
+    }, 3000);
   }
+
+  const handleFieldChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+
+    onFieldChange(value);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
-      <textarea name="textarea" cols="40" rows="8"></textarea>
+      <textarea
+        value={field}
+        name="textarea"
+        cols="40"
+        rows="8"
+        onChange={handleFieldChange}
+      ></textarea>
       <button type="submit">시작</button>
     </form>
   );
