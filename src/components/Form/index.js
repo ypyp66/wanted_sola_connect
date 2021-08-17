@@ -7,11 +7,13 @@ function Index({ field, onFieldChange, setData }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const splitValue = field.split("");
+    if (!checkNumber(field)) {
+      alert("숫자,숫자,...,숫자 로 입력해주세요");
+      return;
+    }
 
-    const filterNumber = splitValue.filter((item) => checkNumber(item));
-
-    setData(filterNumber);
+    const arr = field.split(",").map(Number);
+    setData(arr);
 
     onFieldChange("");
   }

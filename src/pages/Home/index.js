@@ -27,12 +27,6 @@ function Index() {
     setLoading(isLoading);
   }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
-  console.log(loading);
-
   return (
     <Container>
       <Timer area="ko-KR" />

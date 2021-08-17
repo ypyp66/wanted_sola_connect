@@ -16,8 +16,6 @@ function Index({ filter, data, loading, onSetLoading }) {
 
   const result = Sort[filter](data);
 
-  console.log("result ? ", result);
-
   useEffect(() => {
     if (filter === "desc") {
       onSetLoading(true);
