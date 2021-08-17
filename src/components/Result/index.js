@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Sort from "utils/Sort";
 import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
+import { VscLoading } from "react-icons/vsc";
+
+import Sort from "utils/Sort";
 
 const Result = styled.div`
   text-align: center;
@@ -8,21 +11,25 @@ const Result = styled.div`
   height: 100%;
 `;
 
-function Index(props) {
-  const { filter, data } = props;
+function Index({ filter, data, loading, onSetLoading }) {
   const [init, setInit] = useState(false);
 
   const result = Sort[filter](data);
 
+  console.log("result ? ", result);
+
   useEffect(() => {
     if (filter === "desc") {
+      onSetLoading(true);
+
       setTimeout(() => {
         setInit(true);
+        onSetLoading(false);
       }, 3000);
     }
 
     return () => setInit(false);
-  }, [filter, data]);
+  }, [filter, data, onSetLoading]);
 
   return (
     <Result>
@@ -30,8 +37,29 @@ function Index(props) {
       <div>
         {filter === "desc" ? init && result.join(",") : result.join(",")}
       </div>
+      {filter === "desc" && loading && (
+        <Loading>
+          <VscLoading />
+        </Loading>
+      )}
     </Result>
   );
 }
+
+const spin = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const Loading = styled.div`
+  svg {
+    font-size: 30px;
+    animation: ${spin} 2.5s linear infinite;
+  }
+`;
 
 export default Index;

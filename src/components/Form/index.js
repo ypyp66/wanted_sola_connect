@@ -1,6 +1,43 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+import { checkNumber } from "utils/Validation";
+
+function Index({ field, onFieldChange, setData }) {
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const splitValue = field.split("");
+
+    const filterNumber = splitValue.filter((item) => checkNumber(item));
+
+    setData(filterNumber);
+
+    onFieldChange("");
+  }
+
+  const handleFieldChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+
+    onFieldChange(value);
+  };
+
+  return (
+    <CustomForm onSubmit={handleSubmit}>
+      <textarea
+        value={field}
+        name="textarea"
+        cols="40"
+        rows="8"
+        onChange={handleFieldChange}
+      ></textarea>
+      <button type="submit">시작</button>
+    </CustomForm>
+  );
+}
+
 const CustomForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -22,22 +59,5 @@ const CustomForm = styled.form`
     }
   }
 `;
-
-function Index({ setData }) {
-  function handleSubmit(e) {
-    e.preventDefault();
-    let { value } = e.target.textarea;
-
-    value = value.split(",").map(Number);
-
-    setData(value);
-  }
-  return (
-    <CustomForm onSubmit={handleSubmit}>
-      <textarea name="textarea" cols="40" rows="8"></textarea>
-      <button type="submit">시작</button>
-    </CustomForm>
-  );
-}
 
 export default Index;
